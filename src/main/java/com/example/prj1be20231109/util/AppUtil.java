@@ -10,15 +10,22 @@ public class AppUtil {
     public static String getAgo(LocalDateTime a) {
         LocalDateTime b = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 
-        if (a.isBefore(b.minusYears(1))) {
+        if (a.isBefore(b.minusDays(1))) {
             Period between = Period.between(a.toLocalDate(), b.toLocalDate());
-            return between.get(ChronoUnit.YEARS) + "년 전";
-        } else if (a.isBefore(b.minusMonths(1))) {
-            Period between = Period.between(a.toLocalDate(), b.toLocalDate());
-            return between.get(ChronoUnit.MONTHS) + "달 전";
-        } else if (a.isBefore(b.minusDays(1))) {
-            Period between = Period.between(a.toLocalDate(), b.toLocalDate());
-            return between.get(ChronoUnit.DAYS) + "일 전";
+            long years = between.get(ChronoUnit.YEARS);
+            long months = between.get(ChronoUnit.MONTHS);
+            long days = between.get(ChronoUnit.DAYS);
+
+            if (years > 0) {
+                return years + "년 전";
+            }
+
+            if (months > 0) {
+                return months + "달 전";
+            }
+
+            return days + "일 전";
+
         } else if (a.isBefore(b.minusHours(1))) {
             Duration between = Duration.between(a, b);
             return (between.getSeconds() / 60 / 60) + "시간 전";
