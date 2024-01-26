@@ -36,3 +36,19 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+task npmBuild(type: Exec) {
+    workingDir '../prj1-fe20231109'
+//    commandLine 'npm', 'run', 'build'
+//    commandLine('echo')
+    commandLine("cmd.exe", "/C", "npm.cmd run build")
+}
+
+task copyExternalFiles(type: Copy) {
+    from '../prj1-fe20231109/build'
+    into 'src/main/resources/frontend'
+}
+
+processResources.dependsOn npmBuild, copyExternalFiles
+//bootJar.dependsOn npmBuild
+
